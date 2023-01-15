@@ -14,7 +14,7 @@ To Do:
 
 
 All mediapipe missing files can be found here.
-https://storage.googleapis.com/mediapipe-assets/
+- https://storage.googleapis.com/mediapipe-assets/
 
 Compiled AutoFlip Docker Image can be found at this link
-https://hub.docker.com/repository/docker/harisrab/autoflip_compiled/general
+- https://hub.docker.com/repository/docker/harisrab/autoflip_compiled/general
