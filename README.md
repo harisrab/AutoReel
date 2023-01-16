@@ -2,7 +2,7 @@
 
 To Do:
 
-- [ ] Auto detect epic moments (selected labels for politically provocative content etc.)
+- [ ] (Manual for now) Auto detect epic moments (selected labels for politically provocative content etc.)
 - [x] Perform video cropping, automated to 9:16 aspect
 - [ ] Integrate Speech to Text engine Whisper (English, Urdu, Hindi, etc.)
 - [ ] Generate --.srt files and chop to < 8 words
