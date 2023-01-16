@@ -12,6 +12,12 @@ To Do:
 - [ ] An interface to download videos to upload on accounts.
 
 
+Installation:
+
+1. Setup a VM
+2. Install and setup Docker
+
+
 
 All mediapipe missing files can be found here.
 - https://storage.googleapis.com/mediapipe-assets/
