@@ -106,7 +106,7 @@ node {
         type { standard: FACE_CORE_LANDMARKS }
         min_score: 0.85
         max_score: 0.9
-        is_required: true
+        is_required: false
       }
       signal_settings {
         type { standard: FACE_ALL_LANDMARKS }
@@ -165,7 +165,7 @@ node {
         score_aggregation_type: CONSTANT
       }
       scene_camera_motion_analyzer_options: {
-        motion_stabilization_threshold_percent: 0.5
+        motion_stabilization_threshold_percent: 0.1
         salient_point_bound: 0.499
       }
       padding_parameters: {

@@ -1,75 +1,64 @@
-import subprocess
 import os
-import docker
+import subprocess
 import tarfile
+from pathlib import Path
+import gradio as gr
 
+import docker
 from helpers import *
+from moviepy.editor import *
+from pytube import YouTube
 
 
-input_file_path = '~/tdarkk_sample.mp4'
-output_filename = 'sample.mp4'
-output_aspect = '9:16'
-container_ram_limit = '1g'
+def Pipeline(yt_url, timestamps):
+    input_file_path = './input.mp4'
+    output_filename = 'sample13.mp4'
+    output_aspect = '9:16'
+    container_ram_limit = '13g'
+
+    # try:
+    # timestamps = convert_times_to_seconds("HH:MM:SS, HH:MM:SS, ...") ==> [0, 50, 120, 150]
+    timestamps = convert_times_to_seconds(timestamps)
+
+    # Download the YouTube video and chop it into multiple segments
+    # original_filename = DownloadChop_YT_Video(yt_url, timestamps)
+
+    original_filename = "Hello"
+    
+    # # Crop the footage to a 9:16 aspect ratio
+    CropFootage(input_file_path, output_filename,
+                output_aspect, container_ram_limit)
+
+    # Take the video and generate srt
+    GetTranscriptionSRT(f"./output/{output_filename}")
+
+    # Upload the final video to Box Drive
+    UploadToDrive(output_filename, original_filename)
+
+    # Perform a local clean up
+    CleanUpOp()
+
+    return ["Success!", f"./output/{output_filename}"]
+
+    # except:
+    #     return ["Unsuccessful"]
 
 
-os.environ["GLOG_logtostderr"] = "1"
+if __name__ == '__main__':
 
+    # inputs = [
+    #     gr.Text(label="YouTube Link",
+    #             placeholder="https://www.youtube.com/watch?v=FJi1H66qgHM"),
+    #     gr.Text(label="Timestamps",
+    #             placeholder="HH:MM:SS, HH:MM:SS, 00:02:31, 00:02:41, ...")
+    # ]
 
-# start a container and transport the files into it.
-client = docker.from_env()
-autoflip_container = client.containers.run(
-    "autoflip_compiled", detach=True, tty=True, mem_limit=container_ram_limit)
+    # app = gr.Interface(fn=Pipeline, inputs=inputs, outputs=[
+    #                    "text", gr.Video()], cache_examples=True).queue(2)
 
-id = autoflip_container.short_id
+    # app.launch(share=True)
 
-# Populate the missing files in the docker image
-populate_missing_files_in_docker(id)
+    Pipeline("https://www.youtube.com/watch?v=FJi1H66qgHM",
+             "00:00:08,00:00:24,00:01:14,00:01:21,00:02:36,00:02:41")
 
-# Files to transport: config, input video
-subprocess.run(["cp", "/home/pebblexsoft/tdarkk_sample.mp4",
-               "/home/pebblexsoft/reel_tool_pipeline/data/"])
-
-# Make an archive of the files to transport
-with tarfile.open('transport_archive.tar', mode='w') as archive:
-    archive.add('./data/')
-
-# Create a directory in the container
-print("[+] mkdir /tmp/src",
-      autoflip_container.exec_run('mkdir /tmp/src').output.decode())
-print("[+] mkdir /tmp/src",
-      autoflip_container.exec_run('mkdir /tmp/src/output/').output.decode())
-
-# Copy the files into the container
-docker_copy('transport_archive.tar',
-            '/tmp/src/', container_id=id)
-
-# Untar the data in docker image and delete the original tar file
-print(autoflip_container.exec_run(
-    'tar -xvf /tmp/src/transport_archive.tar -C /tmp/src/').output.decode())
-print(autoflip_container.exec_run(
-    'rm -r /tmp/src/transport_archive.tar').output.decode())
-
-
-# Run the processing script in the container
-tool_path = 'bazel-bin/mediapipe/examples/desktop/autoflip/run_autoflip'
-graph_source = '/tmp/src/data/autoflip_graph.pbtxt'
-input_video_path = f'/tmp/src/data/{os.path.basename(input_file_path)}'
-output_video_path = f'/tmp/src/output/{output_filename}'
-
-cmd = f'{tool_path} --calculator_graph_config_file={graph_source} --input_side_packets=input_video_path={input_video_path},output_video_path={output_video_path},aspect_ratio={output_aspect}'
-
-print(autoflip_container.exec_run(cmd).output.decode())
-
-
-# Retrieve the output video from the container.
-print(autoflip_container.exec_run('ls /tmp/src/output/').output.decode())
-
-
-# Delete and stop all the running containers
-# print(client.containers.list(all=True))
-for eachContainer in client.containers.list(all=True):
-    eachContainer.stop()
-    eachContainer.remove()
-
-
-# os.system(cmd)
+    CleanUpOp()
