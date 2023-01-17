@@ -1,25 +1,15 @@
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.oauth2.credentials import Credentials
-from google.auth.transport.requests import Request
+
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 import os.path as os
 from pytube import YouTube
-from pydrive.drive import GoogleDrive
-from pydrive.auth import GoogleAuth
 from moviepy.editor import *
-from googleapiclient.http import MediaIoBaseUpload
-from googleapiclient.errors import HttpError
-from googleapiclient.discovery import build
-import google.auth as google
 import docker
 from whisper.utils import write_srt
 import whisper
 from boxsdk import CCGAuth, Client
-from typing import List
 import os
 from pathlib import Path
 import subprocess
-import io
 import tarfile
 
 
@@ -45,12 +35,9 @@ def populate_missing_files_in_docker(id):
                    '/mediapipe/mediapipe/models/', id)
 
 
-
-
-
 def UploadToDrive(output_filename, original_filename):
     auth = CCGAuth(
-        client_id='s41b9e5adk0bl7djcayy59892kcz7g7z', 
+        client_id='s41b9e5adk0bl7djcayy59892kcz7g7z',
         client_secret='tZ9ISDIM9gcCMnGu4C6mt5x6aTd3W31U',
         enterprise_id='985783711'
     )
@@ -59,7 +46,8 @@ def UploadToDrive(output_filename, original_filename):
     user = client.user().get()
     print(f'The current user ID is {user.id}')
     folder_id = '190344925182'
-    new_file = client.folder(folder_id).upload(f'./output/{output_filename}', file_name=original_filename)
+    new_file = client.folder(folder_id).upload(
+        f'./output/{output_filename}', file_name=original_filename)
     print(f'File "{new_file.name}" uploaded to Box with file ID {new_file.id}')
 
 
@@ -107,7 +95,12 @@ def GetTranscriptionSRT(source_video):
         '-acodec',
         'libmp3lame',
         './tmp_audio.mp3'])
+
     transcription = model.transcribe('tmp_audio.mp3')
+
+    # save SRT
+    with open(os.path.join("./", "tmp_srt" + ".srt"), "w", encoding="utf-8") as srt:
+        write_srt(transcription["segments"], file=srt)
 
 
 def CropFootage(input_file_path, output_filename, output_aspect, container_ram_limit):

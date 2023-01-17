@@ -1,13 +1,10 @@
-import os
-import subprocess
-import tarfile
 from pathlib import Path
-import gradio as gr
 
-import docker
-from helpers import *
+import gradio as gr
 from moviepy.editor import *
 from pytube import YouTube
+
+from helpers import *
 
 
 def Pipeline(yt_url, timestamps):
