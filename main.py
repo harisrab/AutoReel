@@ -12,7 +12,7 @@ from pytube import YouTube
 
 def Pipeline(yt_url, timestamps):
     input_file_path = './input.mp4'
-    output_filename = 'sample13.mp4'
+    output_filename = 'sample.mp4'
     output_aspect = '9:16'
     container_ram_limit = '13g'
 
@@ -24,7 +24,7 @@ def Pipeline(yt_url, timestamps):
     # original_filename = DownloadChop_YT_Video(yt_url, timestamps)
 
     original_filename = "Hello"
-    
+
     # # Crop the footage to a 9:16 aspect ratio
     CropFootage(input_file_path, output_filename,
                 output_aspect, container_ram_limit)
