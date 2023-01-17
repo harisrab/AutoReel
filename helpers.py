@@ -77,15 +77,14 @@ def convert_times_to_seconds(time_str):
     seconds_list = []
     for t in times:
         t_arr = t.strip().split(':')
-        total_seconds = int(t_arr[0]) * 3600 + \
-            int(t_arr[1]) * 60 + int(t_arr[2])
-        seconds_list.append(total_seconds)
+        seconds_list.append(int(t_arr[0]) * 3600 + int(t_arr[1]) * 60 + int(t_arr[2]))
     return seconds_list
 
 
 def GetTranscriptionSRT(source_video):
-    # Unsupported opcode: BEGIN_FINALLY
+    # load model
     model = whisper.load_model('base')
+    # convert video to audio
     subprocess.run([
         'ffmpeg',
         '-y',
@@ -95,7 +94,8 @@ def GetTranscriptionSRT(source_video):
         '-acodec',
         'libmp3lame',
         './tmp_audio.mp3'])
-
+    
+    # transcribe audio
     transcription = model.transcribe('tmp_audio.mp3')
 
     # save SRT

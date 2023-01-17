@@ -18,7 +18,7 @@ def Pipeline(yt_url, timestamps):
     timestamps = convert_times_to_seconds(timestamps)
 
     # Download the YouTube video and chop it into multiple segments
-    # original_filename = DownloadChop_YT_Video(yt_url, timestamps)
+    original_filename = DownloadChop_YT_Video(yt_url, timestamps)
 
     original_filename = "Hello"
 
