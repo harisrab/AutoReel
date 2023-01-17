@@ -46,19 +46,19 @@ def Pipeline(yt_url, timestamps):
 
 if __name__ == '__main__':
 
-    # inputs = [
-    #     gr.Text(label="YouTube Link",
-    #             placeholder="https://www.youtube.com/watch?v=FJi1H66qgHM"),
-    #     gr.Text(label="Timestamps",
-    #             placeholder="HH:MM:SS, HH:MM:SS, 00:02:31, 00:02:41, ...")
-    # ]
+    inputs = [
+        gr.Text(label="YouTube Link",
+                placeholder="https://www.youtube.com/watch?v=FJi1H66qgHM"),
+        gr.Text(label="Timestamps",
+                placeholder="HH:MM:SS, HH:MM:SS, 00:02:31, 00:02:41, ...")
+    ]
 
-    # app = gr.Interface(fn=Pipeline, inputs=inputs, outputs=[
-    #                    "text", gr.Video()], cache_examples=True).queue(2)
+    app = gr.Interface(fn=Pipeline, inputs=inputs, outputs=[
+                       "text", gr.Video()], cache_examples=True).queue(2)
 
-    # app.launch(share=True)
+    app.launch(share=True)
 
-    Pipeline("https://www.youtube.com/watch?v=FJi1H66qgHM",
-             "00:00:08,00:00:24,00:01:14,00:01:21,00:02:36,00:02:41")
+    # Pipeline("https://www.youtube.com/watch?v=FJi1H66qgHM",
+    #          "00:00:08,00:00:24,00:01:14,00:01:21,00:02:36,00:02:41")
 
     CleanUpOp()
