@@ -3,6 +3,9 @@ import moviepy.video.compositing.CompositeVideoClip as mpComp
 from moviepy.editor import VideoFileClip
 import pysrt
 import re
+import youtube_dl
+from WhisperSileroVAD import WhisperTranscribe
+
 
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 import os.path as os
@@ -62,7 +65,7 @@ def UploadToDrive(output_filename, original_filename):
     print(f'The current user ID is {user.id}')
     folder_id = '190344925182'
     new_file = client.folder(folder_id).upload(
-        f'./output/{output_filename}', file_name=original_filename)
+        f'{output_filename}', file_name=original_filename)
     print(f'File "{new_file.name}" uploaded to Box with file ID {new_file.id}')
 
 
@@ -74,13 +77,19 @@ def split_and_stitch_video(video_file=None, seconds_array=None):
         clip = VideoFileClip(video_file).subclip(start_time, end_time)
         clips.append(clip)
     final_clip = concatenate_videoclips(clips)
-    final_clip.write_videofile('input.mp4')
+    final_clip.write_videofile('input.mp4', threads=20)
 
 
 def DownloadChop_YT_Video(yt_url, timestamps):
     yt = YouTube(yt_url)
+    # download_path = yt.streams.filter(
+    #     only_audio=False, file_extension='mp4', res='480p').first().download()
+
     download_path = yt.streams.filter(
-        only_audio=False, file_extension='mp4', res='720p').first().download()
+        progressive=True, file_extension='mp4')[-1].download()
+
+    # print(download_path)
+
     split_and_stitch_video(download_path, timestamps)
     Path(download_path).unlink()
 
@@ -99,7 +108,7 @@ def convert_times_to_seconds(time_str):
 
 def GetTranscriptionSRT(source_video):
     # load model
-    model = whisper.load_model('base')
+    model = whisper.load_model('medium.en')
     # convert video to audio
     subprocess.run([
         'ffmpeg',
@@ -111,19 +120,25 @@ def GetTranscriptionSRT(source_video):
         'libmp3lame',
         './tmp_audio.mp3'])
 
-    # transcribe audio
-    transcription = model.transcribe('tmp_audio.mp3')
+    # # transcribe audio
+    # transcription = model.transcribe('tmp_audio.mp3')
 
-    # save SRT
-    with open(os.path.join("./", "tmp_srt" + ".srt"), "w", encoding="utf-8") as srt:
-        write_srt(transcription["segments"], file=srt)
+    # # save SRT
+    # with open(os.path.join("./", "tmp_srt" + ".srt"), "w", encoding="utf-8") as srt:
+    #     write_srt(transcription["segments"], file=srt)
+
+    WhisperTranscribe("./tmp_audio.mp3")
 
 
 def CropFootage(input_file_path, output_filename, output_aspect, container_ram_limit):
     os.environ["GLOG_logtostderr"] = "1"
 
     # start a container and transport the files into it.
-    client = docker.from_env()
+    # client = docker.from_env()
+    
+    # Create a client object to interact with the Docker daemon
+    client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+
     autoflip_container = client.containers.run(
         "harisrab/autoflip_compiled", detach=True, tty=True, mem_limit=container_ram_limit)
 
@@ -316,7 +331,7 @@ def AddSubs(new_srt_filename):
         # Create a subtitle clip
         padding = 30
         sub_clip = clip.TextClip(
-            sub.text, font='Helvetica-Bold', fontsize=16, color='white', method='caption', size=[video.w - (padding * 2), 100])
+            sub.text, font='Helvetica-Bold', fontsize=16, color='white', method='caption', size=[video.w - (padding * 2), 200])
 
         # Set the position and duration of the subtitle clip
         sub_clip = sub_clip.set_pos('center').set_start(
@@ -331,7 +346,7 @@ def AddSubs(new_srt_filename):
     final_video = mpComp.CompositeVideoClip([video] + subtitle_clips)
 
     # # Write the final video to disk
-    final_video.write_videofile("output.mp4")
+    final_video.write_videofile("output.mp4", threads=20)
 
 
 def PreProcessSRT(srt_file):
