@@ -53,6 +53,18 @@ def populate_missing_files_in_docker(id):
                    '/mediapipe/mediapipe/models/', id)
 
 
+def upload_file_to_box(client, folder_id, filename, original_filename):
+        folder = client.folder(folder_id=folder_id)
+        items = folder.get_items()
+        for item in items:
+            if item.name == filename:
+                updated_file = client.file(item.id).update_contents(item.name)
+                print('File "{0}" has been updated'.format(updated_file.name))
+                return
+            
+        uploaded_file = folder.upload(filename, file_name=original_filename)
+        print('File "{0}" has been uploaded'.format(uploaded_file.name))
+
 def UploadToDrive(output_filename, original_filename):
     auth = CCGAuth(
         client_id='s41b9e5adk0bl7djcayy59892kcz7g7z',
@@ -64,9 +76,14 @@ def UploadToDrive(output_filename, original_filename):
     user = client.user().get()
     print(f'The current user ID is {user.id}')
     folder_id = '190344925182'
-    new_file = client.folder(folder_id).upload(
-        f'{output_filename}', file_name=original_filename)
-    print(f'File "{new_file.name}" uploaded to Box with file ID {new_file.id}')
+
+
+    upload_file_to_box(client, folder_id, output_filename, original_filename)
+
+
+    # new_file = client.folder(folder_id).upload(
+    #     f'{output_filename}', file_name=original_filename)
+    # print(f'File "{new_file.name}" uploaded to Box with file ID {new_file.id}')
 
 
 def split_and_stitch_video(video_file=None, seconds_array=None):
@@ -79,6 +96,27 @@ def split_and_stitch_video(video_file=None, seconds_array=None):
     final_clip = concatenate_videoclips(clips)
     final_clip.write_videofile('input.mp4', threads=20)
 
+# def split_and_stitch_video(video_file=None, seconds_array=None):
+#     clips = []
+
+#     print("Video File: ", video_file)
+
+#     for i in range(0, len(seconds_array), 2):
+#         start_time = seconds_array[i]
+#         end_time = seconds_array[i + 1]
+#         clip_name = "clip_{}.mp4".format(i)
+#         command = f"~/nvidia/ffmpeg/ffmpeg -hwaccel cuda -y -i '{video_file}' -ss {start_time} -to {end_time}  -b:v 5M -c:a copy {clip_name}"
+#         subprocess.run(command, shell=True)
+#         clips.append(clip_name)
+
+#     clip_list = [VideoFileClip(everyClip) for everyClip in clips]
+#     final_clip = concatenate_videoclips(clip_list)
+#     final_clip.write_videofile("input.mp4")
+
+#     for each in clips:
+#         Path(each).unlink()
+
+
 
 def DownloadChop_YT_Video(yt_url, timestamps):
     yt = YouTube(yt_url)
@@ -88,7 +126,7 @@ def DownloadChop_YT_Video(yt_url, timestamps):
     download_path = yt.streams.filter(
         progressive=True, file_extension='mp4')[-1].download()
 
-    # print(download_path)
+    print(download_path)
 
     split_and_stitch_video(download_path, timestamps)
     Path(download_path).unlink()
@@ -137,7 +175,7 @@ def CropFootage(input_file_path, output_filename, output_aspect, container_ram_l
     # client = docker.from_env()
     
     # Create a client object to interact with the Docker daemon
-    client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+    client = docker.from_env()
 
     autoflip_container = client.containers.run(
         "harisrab/autoflip_compiled", detach=True, tty=True, mem_limit=container_ram_limit)
@@ -192,12 +230,13 @@ def CropFootage(input_file_path, output_filename, output_aspect, container_ram_l
     # Clean the data (input) directory
     for file in Path("./data").glob('*.mp4'):
         file.unlink()
-
+    autoflip_container.stop()
+    autoflip_container.remove(force=True)
     # Delete and stop all the running containers
     # print(client.containers.list(all=True))
-    for eachContainer in client.containers.list(all=True):
-        eachContainer.stop()
-        eachContainer.remove()
+    # for eachContainer in client.containers.list(all=True):
+    #   eachContainer.stop()
+    #   eachContainer.remove(force=True)  
 
     # os.system(cmd)
 
