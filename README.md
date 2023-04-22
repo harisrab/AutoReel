@@ -26,10 +26,6 @@ This was a project that I did to understand the construction of transformers and
 
 One of the key features of our tool is its ability to edit the extracted video segments just like a person would 🧑‍💻. This means that the final TikTok reels will have a professional and polished look, making them more appealing to viewers and increasing the chances of your content going viral 🚀.
 
-## 📈 Scaled Imp and Potential Impact
-
-The potential power of this tool is immense, especially when considering its applications in the realm of political content 🌍. By automating the process of identifying, extracting, and editing high-impact segments from political videos, our tool empowers content creators, journalists, and political analysts to quickly generate engaging and shareable content 🌟. This can greatly amplify the reach of important political messages, spur informed discussions, and contribute to a more knowledgeable and engaged electorate 🗳️.
-
 ## 💡 Conclusion
 
 We invite you to explore this repository and discover the incredible potential of our Unified-Multimodal Transformer for Political Content 🧐. With its advanced capabilities and user-friendly interface, this tool is poised to revolutionize the way political content is created, shared, and consumed on platforms like TikTok 🔄. Join us in harnessing the power of AI to make a meaningful impact on the world of politics and beyond 🌐.
