@@ -7,6 +7,7 @@ https://user-images.githubusercontent.com/62747193/233765410-b4bdc4fa-6aee-4125-
 ## 📋 To Do:
 
 - [ ] (Development under progress) Re-train the UMT model https://github.com/TencentARC/UMT Unified-Multi Modal Transformer Model on political content to extract high click potential content ✅.
+- [ ] Implement auto-posting on social channels.
 - [x] Add the feature to constantly monitor channels for interview/podcast length videos 📺.
 - [x] Perform video cropping, automated to 9:16 aspect 🎞️.
 - [x] Integrate Speech to Text engine Whisper (English, Urdu, Hindi, etc.) + Integrate ASR model for clear speech cutting 🗣️.
