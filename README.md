@@ -3,6 +3,7 @@
 To Do:
 
 - [ ] (Manual for now) Re-train the UMT model https://github.com/TencentARC/UMT Unified-Multi Modal Transformer Model on political content to extract high click potential content.
+- [ ] Add the feature to constantly monitor channels for interview/podcast length videos.
 - [x] Perform video cropping, automated to 9:16 aspect
 - [x] Integrate Speech to Text engine Whisper (English, Urdu, Hindi, etc.) + Integrate ASR model for clear speech cutting.
 - [x] Generate --.srt files
@@ -10,6 +11,7 @@ To Do:
 - [x] Animate srt ontop of the video in Python.
 - [x] Add Instagram style filters. A range of them.
 - [x] An interface to download videos to upload on accounts.
+- [x] Wrap up the app into Gradio
 
 
 Installation:
