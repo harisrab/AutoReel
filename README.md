@@ -2,8 +2,8 @@
 
 To Do:
 
-- [ ] (Manual for now) Re-train the UMT model https://github.com/TencentARC/UMT Unified-Multi Modal Transformer Model on political content to extract high click potential content.
-- [ ] Add the feature to constantly monitor channels for interview/podcast length videos.
+- [ ] (Development under progress) Re-train the UMT model https://github.com/TencentARC/UMT Unified-Multi Modal Transformer Model on political content to extract high click potential content.
+- [x] Add the feature to constantly monitor channels for interview/podcast length videos.
 - [x] Perform video cropping, automated to 9:16 aspect
 - [x] Integrate Speech to Text engine Whisper (English, Urdu, Hindi, etc.) + Integrate ASR model for clear speech cutting.
 - [x] Generate --.srt files
