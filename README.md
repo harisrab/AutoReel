@@ -34,6 +34,9 @@ We invite you to explore this repository and discover the incredible potential o
 
 1. Setup an Azure VM 🖥️
 2. Install and setup Docker 🐳
+3. Run the following commands
+
+``` pip3 install -r requirements.txt```
 
 All mediapipe missing files can be found here.
 - https://storage.googleapis.com/mediapipe-assets/
