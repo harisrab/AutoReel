@@ -1,4 +1,4 @@
-# Unified-Multimodal Transformer Pipeline for Political Content Creation: TikTok Reel Generator
+# Unified-Multimodal Transformer Pipeline for Political Content Creation: TikTok Reel Generator (Under-development)
 
 Welcome to the Unified-Multimodal Transformer for Political Content Generation repository! This powerful tool harnesses the latest advancements in artificial intelligence and machine learning 🧠 to create engaging and high-impact TikTok reels 📹 from political videos. By leveraging the power of transformers and multimodal learning, our tool is able to identify the most interesting and click-worthy segments of a video, automatically edit them, and generate a TikTok reel that is both captivating and informative 🤯.
 
