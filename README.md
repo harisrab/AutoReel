@@ -28,7 +28,7 @@ One of the key features of our tool is its ability to edit the extracted video s
 
 ## 💡 Conclusion
 
-We invite you to explore this repository and discover the incredible potential of our Unified-Multimodal Transformer for Political Content 🧐. With its advanced capabilities and user-friendly interface, this tool is poised to revolutionize the way political content is created, shared, and consumed on platforms like TikTok 🔄. Join us in harnessing the power of AI to make a meaningful impact on the world of politics and beyond 🌐.
+This tool coupled with other technologies available such as LLMs can potentially turn the game for political campaigning by automating spread of content. The training costs for the transformer to identify the segments is too high, so this project has been paused and made public for now, and I plan to build this further a bit later.
 
 ## 🛠️ Installation:
 
