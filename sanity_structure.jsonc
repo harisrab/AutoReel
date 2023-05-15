@@ -1,0 +1,138 @@
+{
+  // The set of documents for storing each assessment.
+  "assessments": [
+    {
+      "title": "Assessment 1",
+      "collection_type": [
+        "adaptive_section",
+        "skill_building_section"
+        // "other tabs created by user"
+      ],
+      "is_adaptive": true,
+      "is_scored": true,
+      "is_paid": true,
+      "belongs_to_day": 1,
+      "static_section": [
+        // is_adaptive ? Max length = 1 : Max length >= 1 
+        {
+          "time_allowed": 60,
+          "contents": [
+            // A set of questions linked to set of question bank.
+            {
+              "question_no": 1,
+              "question_bank_uuid": "q_2324324234234234"
+            },
+            {
+              "question_no": 2,
+              "question_bank_uuid": "q_2324324234234234"
+            }
+            // ...
+          ]
+        }
+      ]
+    }
+  ],
+
+  // The set of documents for building question bank.
+  "question_bank": [
+    {
+      "uuid": "q_2324324234234234",
+      "question_no": 1,
+      "problem_statement": "What is the capital of India?",
+
+      "question_type": [
+        // Selectable from the long list of non-editable quesiton types.
+        // [ "Information_and_Ideas", "Rhetoric", "Synthesis" ... ]
+      ],
+      "level_of_difficulty": ["easy", "medium", "hard"],
+      "answer_type": {
+        "option_selectable": {
+          "correct_answer": 2,
+          "options": [
+            {
+              "option_no": 1,
+              "option": "Mumbai"
+            },
+            {
+              "option_no": 2,
+              "option": "Delhi"
+            },
+            {
+              "option_no": 3,
+              "option": "Kolkata"
+            },
+            {
+              "option_no": 4,
+              "option": "Chennai"
+            }
+          ]
+        },
+        "free_form_answer": {
+          "correct_answer": "Delhi",
+          "answer_type": "string"
+        }
+      },
+
+      "commentary": {
+        "explaination": "Delhi is the capital of India",
+        "yt_vid_link": "https://www.youtube.com/embed/1QH6i2hZOr4",
+        "attachment": "some_file_link"
+      }
+    }
+  ],
+
+  // Set of tabs
+  "tabs": [
+    {
+      "title": "Adaptive Section",
+      "key": "adaptive_section" // This key will be used to map the tabs with the question bank. Change it however you want.
+    },
+    {
+      "title": "Skill Building Section",
+      "key": "skill_building_section" // This key will be used to map the tabs with the question bank. Change it however you want.
+    }
+    // [ ... other tabs created by user]
+  ],
+
+  // Set of question types
+  "question_types": [
+    "Information_and_Ideas",
+    "Rhetoric",
+    "Synthesis",
+    "Words_in_Context",
+    "Command_of_Evidence",
+    "Data_Analysis_and_Interpretation",
+    "Literary_Techniques_and_Structure_Analysis",
+    "Expression_of_Ideas",
+    "Standard_English_Conventions",
+    "Words_in_Context",
+    "Command_of_Evidence",
+    "Data_Interpretation",
+    "Rhetorical_Analysis",
+    "Organization_and_Structure",
+    "Effective_Language_Use",
+    "Heart_of_Algebra",
+    "Problem_Solving_and_Data_Analysis",
+    "Passport_to_Advanced_Math",
+    "Additional_Topics_in_Math",
+    "Heart_of_Algebra",
+    "Problem_Solving_and_Data_Analysis",
+    "Passport_to_Advanced_Math",
+    "Additional_Topics_in_Math",
+    "Heart_of_Algebra",
+    "Problem_Solving_and_Data_Analysis",
+    "Passport_to_Advanced_Math",
+    "Additional_Topics_in_Math"
+  ],
+
+  // Set of days
+  "days": [
+    {
+      "day_no": 1,
+      "date": "2020-01-01"
+    },
+    {
+      // More days
+    }
+  ]
+}
